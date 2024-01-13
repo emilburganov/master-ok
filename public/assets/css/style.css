@@ -1,0 +1,241 @@
+/* Fonts */
+@font-face {
+    src: url("../fonts/Montserrat-SemiBold.ttf");
+    font-family: Montserrat;
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    src: url("../fonts/Montserrat-Bold.ttf");
+    font-family: Montserrat;
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    src: url("../fonts/Montserrat-Medium.ttf");
+    font-family: Montserrat;
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    src: url("../fonts/Montserrat-Regular.ttf");
+    font-family: Montserrat;
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Montserrat, sans-serif;
+    font-size: 1rem;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Colors */
+:root {
+    --primary-color: #0192c7;
+    --danger-color: #c70136;
+    --text-color: #505050;
+    --black-color: #1e1e1e;
+    --white-color: #fafafa;
+}
+
+/* Base */
+body {
+    background-color: #f2f2fe;
+    color: var(--black-color)
+}
+
+.centered-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.header__container, .container, .footer__container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.container {
+    padding: 0 20px;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background-color: var(--white-color);
+    box-shadow: rgba(206, 206, 206, 0.2) 0 8px 16px;
+}
+
+.header__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.logo {
+    width: 150px;
+}
+
+.logo > img {
+    width: 100%;
+}
+
+/* Components */
+.button {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: 12px 15px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: .4s;
+}
+
+.button:hover {
+    opacity: .9
+}
+
+.input {
+    padding: 12px 15px;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.input:focus {
+    outline: 4px solid rgba(1, 146, 199, 0.35);
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-group > label {
+    font-weight: 500;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.card {
+    background-color: var(--white-color);
+    padding: 30px;
+    border-radius: 24px;
+    box-shadow: rgba(206, 206, 206, 0.2) 0 8px 16px;
+}
+
+.title {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.error {
+    background-color: rgba(199, 1, 54, 0.30);
+    color: var(--danger-color);
+    font-weight: 500;
+    padding: 12px 15px;
+    border-radius: 10px;
+    animation: error 2s;
+}
+
+@keyframes error {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+
+
+
+
+
+
+
+/* Helpers */
+.flex {
+    display: flex;
+}
+
+.ac {
+    align-items: center;
+}
+
+.sb {
+    justify-content: space-between;
+}
+
+.jc {
+    justify-content: center;
+}
+
+.col {
+    flex-direction: column;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.g-40 {
+    gap: 40px;
+}
+
+.g-24 {
+    gap: 24px;
+}
+
+.g-20 {
+    gap: 20px;
+}
+
+.g-16 {
+    gap: 16px;
+}
+
+.g-10 {
+    gap: 10px;
+}
+
+.p-20 {
+    padding: 20px;
+}
+
+.w-600 {
+    max-width: 600px;
+    width: 100%;
+}
+
+.m-40-0 {
+    margin: 40px 0;
+}

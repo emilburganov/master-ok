@@ -10,7 +10,7 @@
 @include('layouts.partials.header')
 
 <main>
-    <div class="container centered-container">
+    <div class="container">
 
         @yield('content')
 

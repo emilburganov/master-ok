@@ -24,7 +24,10 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/applications', [\App\Http\Controllers\ApplicationController::class, 'index'])->name('applications.get');
+    Route::get('/applications', [\App\Http\Controllers\ApplicationController::class, 'index'])->name('applications.index');
+
+    Route::get('/applications/create', [\App\Http\Controllers\ApplicationController::class, 'create'])->name('applications.create');
+    Route::post('/applications', [\App\Http\Controllers\ApplicationController::class, 'store'])->name('applications.store');
 
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 });

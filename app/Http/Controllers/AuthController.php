@@ -28,19 +28,21 @@ class AuthController extends Controller
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors($v->errors())->withInput();
+            return redirect()
+                ->back()
+                ->withErrors($v->errors())
+                ->withInput();
         }
 
-        $user = User::query()->create([
-            'full_name' => $request->full_name,
-            'email' => $request->email,
-            'login' => $request->login,
-            'password' => Hash::make($request->full_name),
-        ]);
+        $user = User::query()->create(
+            $request
+                ->merge(['password' => Hash::make($request->password)])
+                ->except(['password_confirmation', 'agreement'])
+        );
 
         Auth::login($user);
 
-        return redirect()->route('index');
+        return redirect()->route('applications.index');
     }
 
     public function getLogin()
@@ -69,7 +71,7 @@ class AuthController extends Controller
                 ->withErrors(['message' => 'Invalid email or password.']);
         }
 
-        return redirect()->route('applications.get');
+        return redirect()->route('applications.index');
     }
 
     public function logout(): RedirectResponse

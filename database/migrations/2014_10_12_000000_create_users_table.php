@@ -19,7 +19,11 @@ class CreateUsersTable extends Migration
             $table->string('email');
             $table->string('login');
             $table->string('password');
-            $table->rememberToken();
+            $table->foreignId('role_id')
+                ->default(2)
+                ->constrained('roles')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

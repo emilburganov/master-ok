@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,21 +17,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('index');
+Route::get('/', [HomeController::class, 'index'])->name('index');
 
 Route::middleware('guest')->group(function () {
-    Route::get('/registration', [\App\Http\Controllers\AuthController::class, 'getRegistration'])->name('registration.get');
-    Route::post('/registration', [\App\Http\Controllers\AuthController::class, 'postRegistration'])->name('registration.post');
+    Route::get('/registration', [AuthController::class, 'getRegistration'])->name('registration.get');
+    Route::post('/registration', [AuthController::class, 'postRegistration'])->name('registration.post');
 
-    Route::get('/login', [\App\Http\Controllers\AuthController::class, 'getLogin'])->name('login.get');
-    Route::post('/login', [\App\Http\Controllers\AuthController::class, 'postLogin'])->name('login.post');
+    Route::get('/login', [AuthController::class, 'getLogin'])->name('login.get');
+    Route::post('/login', [AuthController::class, 'postLogin'])->name('login.post');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/applications', [\App\Http\Controllers\ApplicationController::class, 'index'])->name('applications.index');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::get('/applications/create', [\App\Http\Controllers\ApplicationController::class, 'create'])->name('applications.create');
-    Route::post('/applications', [\App\Http\Controllers\ApplicationController::class, 'store'])->name('applications.store');
+    Route::middleware('role:2')->group(function () {
+        Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
+        Route::get('/applications/create', [ApplicationController::class, 'create'])->name('applications.create');
+        Route::post('/applications', [ApplicationController::class, 'store'])->name('applications.store');
+        Route::get('/applications/{application}/delete', [ApplicationController::class, 'destroy'])->name('applications.delete');
+    });
 
-    Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+    Route::middleware('role:1')->group(function () {
+        Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+        Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+        Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+        Route::get('/categories/{category}/delete', [CategoryController::class, 'destroy'])->name('categories.delete');
+    });
 });

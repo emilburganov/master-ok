@@ -19,5 +19,7 @@
 
 @include('layouts.partials.footer')
 
+<script src="{{ asset('assets/js/index.js') }}"></script>
+
 </body>
 </html>

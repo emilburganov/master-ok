@@ -2,22 +2,32 @@
 
 @section('content')
     <div class="flex col g-40 m-40-0">
-        <form method="GET" action="{{ route('applications.index') }}" class="card flex g-20 w-400">
-            <select onchange="this.form.submit()" class="input" name="status_id">
-                @foreach($statuses as $status)
-                    <option
-                        value="{{$status->id}}"
-                        @selected($status->id == $status_id)
-                    >
-                        {{$status->name}}
-                    </option>
-                @endforeach
-            </select>
+        <h2>Личный кабинет</h2>
+        <form method="GET" action="{{ route('applications.index') }}" class="flex sb card flex g-20">
+            <div class="flex g-20">
+                <select onchange="this.form.submit()" class="input w-400" name="status_id">
+                    <option selected disabled>Статус заявки</option>
+                    @foreach($statuses as $status)
+                        <option
+                            value="{{$status->id}}"
+                            @if($status->id == $status_id)
+                                selected
+                            @endif
+                        >
+                            {{$status->name}}
+                        </option>
+                    @endforeach
+                </select>
+                <button class="button">Найти</button>
+            </div>
+            <a class="button" href="{{ route('applications.create') }}">Создать заявку</a>
         </form>
         <div class="card-grid">
             @foreach($applications as $application)
-                <div class="card">
-                    <div class="flex col g-20">
+                <div class="card p-0">
+                    <img src="{{ $application->image }}" alt="application">
+                    <div class="p-20 flex col g-20">
+
                         <div
                             @class([
                                 'badge' => $application->status->name === 'Новая',
@@ -33,7 +43,7 @@
                                 <span>Адрес помещения:</span>
                                 <p>{{$application->room_address}}</p>
                             </div>
-                            <div class="key-value wrap g-10">
+                            <div class="key-value">
                                 <span>Описание заявки:</span>
                                 <p>{{$application->description}}</p>
                             </div>
@@ -43,12 +53,37 @@
                             </div>
                             <div class="key-value">
                                 <span>Согласованная цена:</span>
-                                <p>{{$application->max_price}}₽</p>
+                                <p>{{$application->agreed_price}}₽</p>
                             </div>
                             <div class="key-value">
                                 <span>Создано:</span>
                                 <p>{{$application->created_at}}</p>
                             </div>
+                            @if($application->status->name === 'Новая')
+                                <button
+                                    id="openModalButton"
+                                    class="button danger"
+                                >
+                                    Удалить
+                                </button>
+                            @endif
+
+                            @if($application->status->name === 'Новая')
+                                <div id="modalContainer">
+                                    <div id="modal" class="card flex g-40 col">
+                                        <h3 class="title">Подтвеждение удаления заявки</h3>
+                                        <div class="flex ac g-20">
+                                            <a
+                                                href="{{ route('applications.delete', ['application' => $application]) }}"
+                                                class="button danger"
+                                            >
+                                                Удалить
+                                            </a>
+                                            <button id="closeModalButton" class="button">Выйти</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

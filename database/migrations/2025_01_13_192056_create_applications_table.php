@@ -32,7 +32,9 @@ class CreateApplicationsTable extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->integer('max_price');
+            $table->integer('agreed_price');
             $table->string('image')->nullable();
+            $table->string('completed_image')->nullable();
             $table->timestamps();
         });
     }

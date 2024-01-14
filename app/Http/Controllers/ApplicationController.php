@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Models\Category;
 use App\Models\Status;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -16,23 +17,22 @@ class ApplicationController extends Controller
         $user = Auth::user();
         $statuses = Status::all();
 
-        $status_id = $request->status_id;
+        if (!$request->status_id) {
+            $status_id = null;
 
-        if (!$status_id) {
             $applications = $user
                 ->applications()
                 ->orderBy("created_at", "desc")
                 ->get();
+        } else {
+            $status_id = $request->status_id;
 
-            return view('applications', compact(['applications', 'statuses']));
+            $applications = $user
+                ->applications()
+                ->where("status_id", $status_id)
+                ->orderBy("created_at", "desc")
+                ->get();
         }
-
-        $applications = $user
-            ->applications()
-            ->where("status_id", $status_id)
-            ->orderBy("created_at", "desc")
-            ->get();
-
 
         return view('applications', compact(['applications', 'statuses', 'status_id']));
     }
@@ -44,7 +44,7 @@ class ApplicationController extends Controller
         return view('applications-create', compact(['categories']));
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $v = Validator::make($request->all(), [
             'room_address' => 'required|string',
@@ -64,7 +64,7 @@ class ApplicationController extends Controller
         // enctype="multipart/form-data"
         // public/images/applications folder
 
-        $imageName = 'public/images/applications/' . time() . '.' . $request->image->extension();
+        $imageName = '/images/applications/' . time() . '.' . $request->image->extension();
         $request->image->move(public_path('images/applications'), $imageName);
 
         $application = Application::query()->create($request->except(['image']));
@@ -78,48 +78,11 @@ class ApplicationController extends Controller
         return redirect()->route('applications.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\Application $application
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Application $application)
+    public function destroy(Application $application): RedirectResponse
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Application $application
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Application $application)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Application $application
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Application $application)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Application $application
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Application $application)
-    {
+        if ($application->status->name === 'Новая') {
+            $application->delete();
+        }
 
         return redirect()->back();
     }

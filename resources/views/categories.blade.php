@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="flex col g-40 m-40-0">
-        <h2>Список категорий</h2>
+        <h2 class="title">Список категорий</h2>
         <div class="card-grid">
             @foreach($categories as $category)
                 <div class="card p-0">

@@ -5,7 +5,7 @@
         <h2>Личный кабинет</h2>
         <form method="GET" action="{{ route('applications.index') }}" class="flex sb card flex g-20">
             <div class="flex g-20">
-                <select onchange="this.form.submit()" class="input w-400" name="status_id">
+                <select class="input w-400" name="status_id">
                     <option selected disabled>Статус заявки</option>
                     @foreach($statuses as $status)
                         <option

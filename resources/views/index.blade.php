@@ -19,7 +19,7 @@
 
 @include('layouts.partials.footer')
 
-<script src="{{ asset('assets/js/index.js') }}"></script>
+<script src="{{ asset('assets/js/delete-modal.js') }}"></script>
 
 </body>
 </html>

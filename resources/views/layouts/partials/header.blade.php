@@ -6,9 +6,10 @@
             <img src="{{ asset('assets/images/logo_ok.png') }}" alt="logo">
         </a>
 
-        @if(Auth::user())
+        @auth
             @if(Auth::user()->role_id === 1)
                 <div class="flex ac g-20">
+                    <a class="link" href="{{ route('admin-applications.index') }}">Список заявок</a>
                     <a class="link" href="{{ route('categories.index') }}">Список категорий</a>
                     <a class="link" href="{{ route('categories.create') }}">Создать категорию</a>
                 </div>
@@ -20,7 +21,7 @@
                         <a class="link" href="{{ route('applications.create') }}">Создать заявку</a>
                     </div>
                 @endif
-        @endif
+        @endauth
 
         @guest
             <div class="flex ac g-20">

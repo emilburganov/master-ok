@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminApplicationsController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
@@ -38,6 +39,9 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware('role:1')->group(function () {
+        Route::get('/admin-applications', [AdminApplicationsController::class, 'index'])->name('admin-applications.index');
+        Route::post('/admin-applications/{application}/update', [AdminApplicationsController::class, 'update'])->name('admin-applications.update');
+
         Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
         Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
         Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
